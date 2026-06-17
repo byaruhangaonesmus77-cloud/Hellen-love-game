@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Catch My Love</title>
+  <style>
+    body {
+      margin: 0;
+      background: pink;
+      overflow: hidden;
+      font-family: cursive;
+    }
+    #basket {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 40px;
+      background: red;
+      border-radius: 20px;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+      line-height: 40px;
+    }
+    .heart {
+      position: absolute;
+      font-size: 30px;
+      color: crimson;
+    }
+    #message {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+      color: white;
+      text-shadow: 2px 2px 5px red;
+    }
+  </style>
+</head>
+<body>
+  <div id="basket">💖</div>
+  <div id="message">Catch the hearts, Hellen!</div>
+
+  <script>
+    const basket = document.getElementById("basket");
+    const message = document.getElementById("message");
+    let score = 0;
+
+    // Move basket with arrow keys
+    document.addEventListener("keydown", e => {
+      const basketRect = basket.getBoundingClientRect();
+      if (e.key === "ArrowLeft" && basketRect.left > 0) {
+        basket.style.left = basket.offsetLeft - 30 + "px";
+      }
+      if (e.key === "ArrowRight" && basketRect.right < window.innerWidth) {
+        basket.style.left = basket.offsetLeft + 30 + "px";
+      }
+    });
+
+    // Create falling hearts
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = "❤️";
+      heart.style.left = Math.random() * window.innerWidth + "px";
+      heart.style.top = "0px";
+      document.body.appendChild(heart);
+
+      let fall = setInterval(() => {
+        heart.style.top = heart.offsetTop + 5 + "px";
+
+        // Collision detection
+        const basketRect = basket.getBoundingClientRect();
+        const heartRect = heart.getBoundingClientRect();
+        if (
+          heartRect.bottom >= basketRect.top &&
+          heartRect.left >= basketRect.left &&
+          heartRect.right <= basketRect.right
+        ) {
+          score++;
+          message.innerHTML = "I love you x" + score;
+          heart.remove();
+          clearInterval(fall);
+
+          // Surprise after 10 hearts
+          if (score === 10) {
+            showSurprise();
+          }
+        }
+
+        // Remove if it falls off screen
+        if (heart.offsetTop > window.innerHeight) {
+          heart.remove();
+          clearInterval(fall);
+        }
+      }, 30);
+    }
+
+    setInterval(createHeart, 1500);
+
+    // Surprise function
+    function showSurprise() {
+      message.innerHTML = "💖 Mamito Hellen, you’re my everything 💖";
+      message.style.fontSize = "32px";
+      message.style.color = "gold";
+      message.style.textShadow = "2px 2px 10px red";
+
+      // Optional: Add background music
+      const audio = document.createElement("audio");
+      audio.src = "romantic.mp3"; // upload this file to your repo
+      audio.autoplay = true;
+      audio.loop = true;
+      document.body.appendChild(audio);
+    }
+  </script>
+</body>
+</html>
