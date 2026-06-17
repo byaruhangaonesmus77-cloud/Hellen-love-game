@@ -15,14 +15,15 @@
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      width: 80px;
-      height: 40px;
+      width: 100px;
+      height: 50px;
       background: red;
-      border-radius: 20px;
+      border-radius: 25px;
       text-align: center;
       color: white;
       font-weight: bold;
-      line-height: 40px;
+      line-height: 50px;
+      font-size: 24px;
     }
     .heart {
       position: absolute;
@@ -51,11 +52,10 @@
 
     // Move basket with arrow keys
     document.addEventListener("keydown", e => {
-      const basketRect = basket.getBoundingClientRect();
-      if (e.key === "ArrowLeft" && basketRect.left > 0) {
+      if (e.key === "ArrowLeft") {
         basket.style.left = basket.offsetLeft - 30 + "px";
       }
-      if (e.key === "ArrowRight" && basketRect.right < window.innerWidth) {
+      if (e.key === "ArrowRight") {
         basket.style.left = basket.offsetLeft + 30 + "px";
       }
     });
@@ -108,11 +108,12 @@
       message.style.color = "gold";
       message.style.textShadow = "2px 2px 10px red";
 
-      // Optional: Add background music
+      // Background music with controls (for testing)
       const audio = document.createElement("audio");
-      audio.src = "romantic.mp3"; // upload this file to your repo
+      audio.src = "romantic.mp3"; // must match uploaded filename
       audio.autoplay = true;
       audio.loop = true;
+      audio.controls = true; // shows play button if autoplay blocked
       document.body.appendChild(audio);
     }
   </script>
